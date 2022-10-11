@@ -201,3 +201,33 @@
    exit # Exit chroot environment
    reboot # Reboot the system.
    ```
+
+6. **Finalize your installation**
+   
+    Login in the TTY with your user account created, not root.
+   
+   ```bash
+   su # Change to root, enter your password, not the root.
+   cd /root/
+   
+   # Create a swap file.
+   dd if=/dev/zero of=/swapfile bs=1M count=2048 status=progress # Create a 2GB swap file. Change the count to your desired size
+   
+   chmod 600 /swapfile # Set permissions
+   
+   mkswap /swapfile # Make it a swapfile
+   ```
+   
+    Create a backup of your filesystem file (**fstab**)
+   
+   ```bash
+   cp /etc/fstab /etc/fstab.bak
+   
+   # We are going to append a line that will let the system know the swapfile existence
+   
+   echo "/swapfile none swap sw 0 0" | tee -a /etc/fstab # Append to fstab and echo
+   
+   mount -a # Test fstab for error
+   swapon -a # Activate swap
+   free -m # Confirm swap size
+   ```
