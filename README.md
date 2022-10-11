@@ -280,3 +280,10 @@
    pacman -S plasma-meta kde-applications 
    systemctl enable --now sddm.service # Enable and start SDDM
    ```
+
+9. Phew, thats it guys. 
+   
+   ```bash
+   pacman -S neofetch
+   neofetch # Show your crush now.
+   ```
