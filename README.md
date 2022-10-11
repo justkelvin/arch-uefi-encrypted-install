@@ -231,3 +231,26 @@
    swapon -a # Activate swap
    free -m # Confirm swap size
    ```
+
+7. Configure timezone and Hostname and Hosts
+   
+   ```bash
+   timedatectl list-timezones # Find yours 
+   
+   timedatectl set-timezone Asia/Hong_Kong # Replace it here
+   
+   systemctl enable --now systemd-timesyncd # Service for our time synchronization
+   
+   hostnamectl set-hostname arch # replace arch with what you like
+   
+   nano /etc/hosts # as follows, replace arch with what you set above
+   
+   # 127.0.0.1     localhost
+   # 127.0.1.1     arch
+   ```
+   
+    Install CPU microcode
+   
+   ```bash
+   pacman -S amd-ucode # Or intel-ucode for intel device
+   ```
