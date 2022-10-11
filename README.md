@@ -40,3 +40,21 @@
      lsblk # Verify if you can identify all required partitions
      fdisk -l # Different way.
      ```
+
+   - **mks tools*** - Formating and setting up LVM
+     
+     ### <u>**Setup EFI Partion**</u>
+     
+     **Note: Skip this if you already have an existing EFI partition**
+     
+     Format EFI to FAT32
+     
+     ```bash
+     mkfs.fat -F32 /dev/sda1 # create a FAT32 file system for EFI boot partition
+     ```
+     
+     Format root partion to ext4
+     
+     ```bash
+     mkfs.ext4 /dev/sda4 # the root partition
+     ```
