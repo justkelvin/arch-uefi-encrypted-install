@@ -151,3 +151,21 @@
    nano /etc/locale.gen # Uncomment your locale e.g. en_US.UTF-8 UTF-8
    locale-gen # Generate newly configured locales
    ```
+
+4. **Set up users and permissions**
+   
+   ```bash
+   passwd # Create a root password (Because we are chrooted as root account)
+   
+   useradd -m -g users -G wheel justkelvin # Replace justkelvin with your desired name
+   
+   passwd justkelvin # Set password for user created above
+   ```
+   
+    Let's add the newly created user to the sudoers file
+   
+   ```bash
+   EDITOR=nano visudo # Uncomment line: Allow members of group wheel to execute any command %wheel ALL=(ALL) ALL
+   ```
+   
+    **NB: This will allow the user to run sudo commands**
