@@ -66,3 +66,48 @@
      
      cryptsetup open --type luks /dev/sda4 lvm # Enter the password you just set up to unlock the partition.
      ```
+
+     ### <u>**Unlock root partition in order for us to work with**</u>
+     
+     ```bash
+     cryptsetup open --type luks /dev/sda3 lvm # Enter the password you just set up and map as lvm.
+     ```
+     
+     ### <u>**Create a physical volume to use with LVM**</u>
+     
+     ```bash
+     pvcreate --dataalignment 1m /dev/mapper/lvm
+     ```
+     
+     ### <u>**Create a volume group - a name space that contains logical volume.**</u>
+     
+     ```bash
+     vgcreate volgroup0 /dev/mapper/lvm
+     ```
+     
+     ### <u>**Create Logical volumes for root and perform required ops**</u>
+     
+     ```bash
+     lvcreate -L 100%FREE volgroup0 -n lv_root # Give all space to root
+     modprobe dm_mod # Load a required kernel module
+     vgscan # scan volume groups
+     vgchange -ay # load logical volume
+     ```
+     
+     ### <u>**Format root logical volume and mount required partitions**</u>
+     
+     ```bash
+     mkfs.ext4 /dev/volgroup0/lv_root
+     
+     mount /dev/volgroup0/lv_root /mnt
+     
+     mkdir /mnt/boot/EFI # create a boot partion
+     
+     mount /dev/sda1 /mnt/boot # Mount it
+     
+     mkdir /mnt/etc/ # Config directory
+     
+     genfstab -U -p /mnt >> /mnt/etc/fstab # Generate filesystem conf and save it
+     
+     cat /etc/fstab # Verify 
+     ```
