@@ -254,3 +254,29 @@
    ```bash
    pacman -S amd-ucode # Or intel-ucode for intel device
    ```
+
+8. Install Desktop Environment... ;)
+   
+   ```bash
+   pacman -S xorg-server # Xorg
+   pacman -S mesa # Video driver for Intel and AMD Inc.
+   
+   # For Nvidia GPU
+   pacman -S nvidia
+   
+   # For VM installs guest
+   pacman -S virtualbox-guest-utils xf86-vides-vmware
+   systemctl enable --now vboxservice
+   ```
+   
+    Now choose your prefered DE, WM.
+   
+   ```bash
+   # Gnome Environment
+   pacman -S gnome gnome-tweaks
+   systemctl enable --now gdm.service # Enable and start Dispaly manager *GDM
+   
+   # KDE Plasma
+   pacman -S plasma-meta kde-applications 
+   systemctl enable --now sddm.service # Enable and start SDDM
+   ```
