@@ -169,3 +169,35 @@
    ```
    
     **NB: This will allow the user to run sudo commands**
+
+5. **Grub installation and rebooting**
+   
+    Install grub and os-prober in order to locate any other installed OS.
+   
+   ```bash
+   pacman -S grub efibootmgr os-prober 
+   ```
+   
+    Now edit this file and append this line to enable os detection and luks support
+   
+   ```bash
+   grub-install --target=x86_64-efi --bootloader-id=grub_efi --recheck # Install grub
+   
+   nano /etc/default/grub 
+   # Uncomment this line GRUB_ENABLE_CRYPTODISK=y
+   
+   # Change this line and replace /dev/sda4 with your root device number GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=/dev/sda4:volgroup0:allow-discards loglevel=3 quiet"
+   
+   # Add this at the end of the file - GRUB_DISABLE_OS_PROBER=false
+   
+   grub-mkconfig -o /boot/grub/grub.cfg # Generate grub config
+   ```
+   
+    Time to reboot, fingers crossed if you did everything correctly it will boot successfully.
+   
+    **Goodluck**
+   
+   ```bash
+   exit # Exit chroot environment
+   reboot # Reboot the system.
+   ```
