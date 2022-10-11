@@ -58,3 +58,11 @@
      ```bash
      mkfs.ext4 /dev/sda4 # the root partition
      ```
+
+     ### <u>**Setting up Encryption**</u>
+     
+     ```bash
+     cryptsetup luksFormat /dev/sda4 # Confirm with YES and enter your strong password.
+     
+     cryptsetup open --type luks /dev/sda4 lvm # Enter the password you just set up to unlock the partition.
+     ```
