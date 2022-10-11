@@ -111,3 +111,43 @@
      
      cat /etc/fstab # Verify 
      ```
+
+3. **Start Arch Installation**
+   
+    Lets first install main packages and the kernel
+   
+   ```bash
+   pacstrap -i /mnt base
+   
+   arch-chroot /mnt # Chroot to our system
+   
+   pacman -S linux linux-headers # Thats the kernel and headers
+   
+   pacman -S nano base-devel openssh networkmanager wpa_supplicant wireless_tools netctl dialog lvm2 # You need this, trust me.
+   
+   systemctl enable NetworkManager # Enable network service
+   ```
+   
+    Some required editing you need in order for our luks to work
+   
+   ```bash
+   nano /etc/mkinitcpio.conf # Edit line that begins with HOOKS (... block [here] filesystems...)
+   ```
+   
+    For encrypted disk setup which we do, we need to add ***(...[encrypt lvm2]...)*** save and quit
+    Should now look like this.
+   
+   ```bash
+   HOOKS (... block encrypt lvm2 filesystems...)
+   ```
+   
+    Regenerate the vmlinux image and look for **encrypt and lvm2** in output logs
+   
+   ```bash
+   mkinitcpio -p linux
+   ```
+   
+   ```bash
+   nano /etc/locale.gen # Uncomment your locale e.g. en_US.UTF-8 UTF-8
+   locale-gen # Generate newly configured locales
+   ```
